@@ -1,38 +1,19 @@
-// modules =================================================
-var express        = require('express');
-var app            = express();
-var mongoose       = require('mongoose');
-var bodyParser     = require('body-parser');
-var methodOverride = require('method-override');
-var morgan     	   = require("morgan");
-var autoIncrement  = require('mongoose-auto-increment');
+//  OpenShift sample Node application
+var express = require('express'),
+    app     = express(),
+    morgan  = require('morgan');
+    
+Object.assign=require('object-assign')
 
+app.engine('html', require('ejs').renderFile);
+app.use(morgan('combined'))
 
-// Configuracion Socket io
-var socketio = require('socket.io');
-var server = require("http").createServer(app);
-var io = socketio.listen(server);
-app.set('socketio', io);
-app.set('server', server);
+var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
+    ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
+    mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
+    mongoURLLabel = "";
 
-// configuration ===========================================
-	
-var server_port = process.env.OPENSHIFT_NODEJS_PORT || 3000
-var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
-
-// default to a 'localhost' configuration:
-var mongodb_connection_string = '127.0.0.1:27017/expedientes';
-// if OPENSHIFT env variables are present, use the available connection info:
-/*if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
-    mongodb_connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
-    process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
-    process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
-    process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
-    process.env.OPENSHIFT_APP_NAME;
-}*/
-
-//Nuevo
-if (mongodb_connection_string == null && process.env.DATABASE_SERVICE_NAME) {
+if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
   var mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
       mongoHost = process.env[mongoServiceName + '_SERVICE_HOST'],
       mongoPort = process.env[mongoServiceName + '_SERVICE_PORT'],
@@ -41,117 +22,87 @@ if (mongodb_connection_string == null && process.env.DATABASE_SERVICE_NAME) {
       mongoUser = process.env[mongoServiceName + '_USER'];
 
   if (mongoHost && mongoPort && mongoDatabase) {
-    mongoURLLabel = mongodb_connection_string = 'mongodb://';
+    mongoURLLabel = mongoURL = 'mongodb://';
     if (mongoUser && mongoPassword) {
-      mongodb_connection_string += mongoUser + ':' + mongoPassword + '@';
+      mongoURL += mongoUser + ':' + mongoPassword + '@';
     }
     // Provide UI label that excludes user id and pw
     mongoURLLabel += mongoHost + ':' + mongoPort + '/' + mongoDatabase;
-    mongodb_connection_string += mongoHost + ':' +  mongoPort + '/' + mongoDatabase;
+    mongoURL += mongoHost + ':' +  mongoPort + '/' + mongoDatabase;
 
   }
 }
-//Nuevo
+var db = null,
+    dbDetails = new Object();
 
-var connection = mongoose.createConnection(mongodb_connection_string);
-autoIncrement.initialize(connection);
-mongoose.connect(mongodb_connection_string);
+var initDb = function(callback) {
+  if (mongoURL == null) return;
 
+  var mongodb = require('mongodb');
+  if (mongodb == null) return;
 
-/*
-// config files
+  mongodb.connect(mongoURL, function(err, conn) {
+    if (err) {
+      callback(err);
+      return;
+    }
 
-var db = require('./config/db');
-var port = process.env.PORT || 3000; // set our port
+    db = conn;
+    dbDetails.databaseName = db.databaseName;
+    dbDetails.url = mongoURLLabel;
+    dbDetails.type = 'MongoDB';
 
-var connection = mongoose.createConnection(db.url);
-autoIncrement.initialize(connection);
-mongoose.connect(db.url); // connect to our mongoDB database (commented out after you enter in your own credentials)
-*/
+    console.log('Connected to MongoDB at: %s', mongoURL);
+  });
+};
 
-
-// get all data/stuff of the body (POST) parameters
-app.use(bodyParser.json()); // parse application/json 
-app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
-app.use(bodyParser.urlencoded({ extended: true })); // parse application/x-www-form-urlencoded
-
-app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
-app.use(express.static(__dirname + '/public')); // set the static files location /public/img will be /img for users
-
-// morgarn midleware
-app.use(morgan("dev"));
-app.use(function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
-    next();
-});
-
-//process funtion print - i dont know if works
-process.on('uncaughtException', function(err) {
-    console.log(err);
-});
-
-
-// routes ==================================================
-require('./app/routes')(app); // pass our application into our routes
-
-// start app ===============================================
-//app.listen(port);	
-//console.log('EASING IE running on port: ' + port); 			// shoutout to the user
-
-server.listen(server_port, server_ip_address, function () {
-  console.log( "Listening on " + server_ip_address + ", server_port " + server_port )
-});
-
-exports = module.exports = app; 						// expose app
-
-//Importar desde archivo csv
-//mongoimport --db expedientes --collection privilegios --type csv --headerline --file priv.csv
-
-
-// Socket.io connection handler
-/*
-io.on('connection', function (socket) {  
-        console.log(socket.id);
-
-        //Simple example
-        socket.on('led:on', function (data) {
-           led.on();
-           console.log('LED ON RECEIVED');
-        });
-
-        
-        //Example using data
-        socket.on('led:on', function (data) {
-            switch(data.pin){
-                case 1: led1.on();
-                    break;
-                case 2: led2.on();
-                    break;
-                default: console.log('NO PIN RECEIVED');
-            }
-            
-            console.log('LED '+data.pin+' ON RECEIVED');
-            var dataS = {pin: data.pin, stat: 'on'};
-            io.sockets.emit('led:change', dataS );
-            //console.log(io);
-            //var clients = io.sockets; //clients is an array
-            //console.log(clients);
-        });
-
-        //Example refresh after create|update|delete
-        socket.on('led:created', function (data) {
-            io.sockets.emit('led:refresh');
-        });
-
-        socket.on('led:deleted', function (data) {
-            io.sockets.emit('led:refresh');
-        });
-
-        socket.on('led:updated', function (data) {
-            io.sockets.emit('led:refresh');
-        });
-
+app.get('/', function (req, res) {
+  // try to initialize the db on every request if it's not already
+  // initialized.
+  if (!db) {
+    initDb(function(err){});
+  }
+  if (db) {
+    var col = db.collection('counts');
+    // Create a document with request IP and current time of request
+    col.insert({ip: req.ip, date: Date.now()});
+    col.count(function(err, count){
+      if (err) {
+        console.log('Error running count. Message:\n'+err);
+      }
+      res.render('index.html', { pageCountMessage : count, dbInfo: dbDetails });
     });
-*/
+  } else {
+    res.render('index.html', { pageCountMessage : null});
+  }
+});
+
+app.get('/pagecount', function (req, res) {
+  // try to initialize the db on every request if it's not already
+  // initialized.
+  if (!db) {
+    initDb(function(err){});
+  }
+  if (db) {
+    db.collection('counts').count(function(err, count ){
+      res.send('{ pageCount: ' + count + '}');
+    });
+  } else {
+    res.send('{ pageCount: -1 }');
+  }
+});
+
+// error handling
+app.use(function(err, req, res, next){
+  console.error(err.stack);
+  res.status(500).send('Something bad happened!');
+});
+
+initDb(function(err){
+  console.log('Error connecting to Mongo. Message:\n'+err);
+});
+
+app.listen(port, ip);
+console.log('Server running on http://%s:%s', ip, port);
+
+module.exports = app ;
