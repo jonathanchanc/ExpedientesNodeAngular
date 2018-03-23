@@ -1,0 +1,73 @@
+<div class=" text-center" ng-init="get()">
+	<h1>{{label.createOrEdit}} {{controlNameSingular}}</h1>
+    <div ng-if="messageShow" ng-class="messageClass" class="alert" role="alert">
+        {{messageText}}
+    </div>
+</div>
+
+<form name="form" ng-submit="createOrUpdate(form.$valid,_id)" novalidate>
+
+<div class="panel panel-default">
+    <div class="panel-heading">{{label.data}}</div>
+    <div class="panel-body">
+    
+        <div class="row">
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.id.$touched && form.id.$invalid }">
+                <label for="id">{{model.id}}</label>
+                <input type="number" name="id" class="form-control" placeholder="{{model.id}}" ng-model="formData.id" min="0" max="10000" required>
+                <div class="help-block" ng-messages="form.id.$error" ng-if="form.id.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.nombre.$touched && form.nombre.$invalid }">
+                <label for="nombre">{{model.nombre}}</label>
+                <input type="text" name="nombre" class="form-control" placeholder="{{model.nombre}}" ng-model="formData.nombre" required>
+                <div class="help-block" ng-messages="form.nombre.$error" ng-if="form.nombre.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.modulo.$touched && form.modulo.$invalid }">
+                <label for="modulo">{{model.modulo}}</label>
+                <input type="text" name="modulo" class="form-control" placeholder="{{model.modulo}}" ng-model="formData.modulo" required>
+                <div class="help-block" ng-messages="form.modulo.$error" ng-if="form.modulo.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.descripcion.$touched && form.descripcion.$invalid }">
+                <label for="descripcion">{{model.descripcion}}</label>
+                <input type="text" name="descripcion" class="form-control" placeholder="{{model.descripcion}}" ng-model="formData.descripcion" required>
+                <div class="help-block" ng-messages="form.descripcion.$error" ng-if="form.descripcion.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-3">
+                <label for="estado">{{model.estado}}</label>
+                <div class="form-group">
+                    <div class="radio-inline">
+                        <label><input type="radio" name="estado" value="Activo" ng-model="formData.estado">{{label.active}}</label>
+                    </div>
+                    <div class="radio-inline">
+                        <label><input type="radio" name="estado" value="Inactivo" ng-model="formData.estado">{{label.inactive}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-left" >
+        <br><a class="button btn btn-danger" href="/{{controllerInstance}}"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>  {{label.cancel}}</a>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-right" >
+        <br><button name="submit" class="btn btn-primary"  ><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> {{label.save}}</button>
+    </div>
+</div>
+
+
+<br/>
+</form>

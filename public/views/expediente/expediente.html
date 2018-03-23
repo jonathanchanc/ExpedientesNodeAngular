@@ -1,0 +1,55 @@
+<div class="text-center" ng-init="inicio()">
+	<h1>Busqueda de Expedientes</h1>
+    <div ng-if="messageShow" ng-class="messageClass" class="alert" role="alert">
+        {{messageText}}
+    </div>
+</div>
+<div class="text-center">
+
+    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" >
+        <input type="data" class="form-control" placeholder="Buscar" ng-model="searchData.data">
+    </div>
+    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 text-left" >
+        <button type="submit" class="btn btn-primary btn-sm" ng-click="searchExpediente()">Buscar</button>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-right" >
+        <a class="button btn btn-primary" href="/expedientes/create">Nuevo Expediente</a>
+    </div>
+    
+</div>
+
+<div>
+    <table class="table">
+        <thead>
+            <th>Nombre Completo</th>
+            <th>Telefono</th>
+            <th>Email</th>
+            <th>Edad</th>
+            <th>Lugar de Nacimiento</th>
+            <th>Fecha de Nacimiento</th>
+            <th>Editar</th>
+        </thead>
+        <tbody>
+            <!--LOPP OVER DEVICES -->
+            <tr ng-repeat="expediente in expedientes" ng-show="expedientes.length > 0">
+                <td>{{expediente.apPaterno}} {{expediente.apMaterno}} {{expediente.nombre}}</td>
+                <td>{{expediente.telefono}}</td>
+                <td>{{expediente.email}}</td>
+                <td>{{expediente.edad}}</td>
+                <td>{{expediente.lugar_nacimiento}}</td>
+                <td>{{expediente.fecha_nacimiento | date:"MM/dd/yyyy" }}</td>
+                <td><a class="button btn btn-success" href="/expedientes/update/{{expediente._id}}">Editar</a></td>
+            </tr>
+            <!--END LOOP -->
+            <tr ng-if="expedientes.length <= 0">
+                <td colspan="6">No se encontraron expedientes</td>
+            </tr>
+            
+        </tbody>
+    </table>
+</div>
+
+<div class="text-center" ng-show="loading">
+    <span class="fa fa-spinner fa-spin fa-3x"></span>
+</div>

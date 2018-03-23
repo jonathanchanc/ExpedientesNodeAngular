@@ -1,0 +1,165 @@
+<div class=" text-center" ng-init="get()">
+	<h1>{{label.createOrEdit}} {{controlNameSingular}}</h1>
+    <div ng-if="messageShow" ng-class="messageClass" class="alert" role="alert">
+        {{messageText}}
+    </div>
+</div>
+
+<form name="form" ng-submit="createOrUpdate(form.$valid,_id)" novalidate>
+
+<div class="panel panel-default">
+    <div class="panel-heading">{{label.data}}</div>
+    <div class="panel-body">
+    
+        <div class="row">
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.titulo.$touched && form.titulo.$invalid }">
+                <label for="titulo">{{model.titulo}}</label>
+                <input type="text" name="titulo" class="form-control" placeholder="{{model.titulo}}" ng-model="formData.titulo" required>
+                <div class="help-block" ng-messages="form.titulo.$error" ng-if="form.titulo.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.nombre.$touched && form.nombre.$invalid }">
+                <label for="nombre">{{model.nombre}}</label>
+                <input type="text" name="nombre" class="form-control" placeholder="{{model.nombre}}" ng-model="formData.nombre" required>
+                <div class="help-block" ng-messages="form.nombre.$error" ng-if="form.nombre.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.apPaterno.$touched && form.apPaterno.$invalid }">
+                <label for="apPaterno">{{model.apPaterno}}</label>
+                <input type="text" name="apPaterno" class="form-control" placeholder="{{model.apPaterno}}" ng-model="formData.apPaterno" required>
+                <div class="help-block" ng-messages="form.apPaterno.$error" ng-if="form.apPaterno.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.apMaterno.$touched && form.apMaterno.$invalid }">
+                <label for="apMaterno">{{model.apMaterno}}</label>
+                <input type="text" name="apMaterno" class="form-control" placeholder="{{model.apMaterno}}" ng-model="formData.apMaterno" required>
+                <div class="help-block" ng-messages="form.apMaterno.$error" ng-if="form.apMaterno.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.siglas.$touched && form.siglas.$invalid }">
+                <label for="siglas">{{model.siglas}}</label>
+                <input type="text" name="siglas" class="form-control" placeholder="{{model.siglas}}" ng-model="formData.siglas" required>
+                <div class="help-block" ng-messages="form.siglas.$error" ng-if="form.siglas.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.telefono.$touched && form.telefono.$invalid }">
+                <label for="telefono">{{model.telefono}}</label>
+                <input type="text" name="telefono" class="form-control" placeholder="{{model.telefono}}" ng-model="formData.telefono" required>
+                <div class="help-block" ng-messages="form.telefono.$error" ng-if="form.telefono.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
+                <label for="email">{{model.email}}</label>
+                <input type="email" name="email" class="form-control" placeholder="{{model.email}}" ng-model="formData.email" >
+                <div class="help-block" ng-messages="form.email.$error" ng-if="form.email.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">{{controlNameSingular}}</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.usuario.$touched && form.usuario.$invalid }">
+                <label for="usuario">{{model.usuario}}</label>
+                <input type="text" name="usuario" class="form-control" placeholder="{{model.usuario}}" ng-model="formData.usuario" required>
+                <div class="help-block" ng-messages="form.usuario.$error" ng-if="form.usuario.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.password.$touched && form.password.$invalid }">
+                <label for="password">{{model.password}}</label>
+                <input type="text" name="password" class="form-control" placeholder="{{model.password}}" ng-model="formData.password" required  minlength="6" maxlength="25">
+                <div class="help-block" ng-messages="form.password.$error" ng-if="form.password.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-right"  ng-show="formTemp.statusEditable">
+                <br><button type="button" class="btn btn-warning" ng-disabled="formTemp.lockButtonSave" ng-click="changePassword()"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> {{label.resetPassword}}</button>
+            </div>
+            
+            <!--div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.token.$touched && form.token.$invalid }">
+                <label for="token">{{model.token}}</label>
+                <input type="text" name="token" class="form-control" placeholder="{{model.token}}" ng-model="formData.token" required>
+                <div class="help-block" ng-messages="form.token.$error" ng-if="form.token.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div-->
+        </div>
+
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">{{label.management}}</div>
+    <div class="panel-body">
+    
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <label for="rol">{{model.rol}}</label>
+                <select style="width:100%;" chosen
+                        options="Roles"
+                        data-placeholder-text-single="'{{model.rol}}'"
+                        data-ng-model="formData.rol"
+                        data-ng-options="rol._id as rol.nombre for rol in Roles">
+                        <option value=""></option>
+                </select>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <label for="oficina">{{model.oficina}}</label>
+                <select style="width:100%;" chosen
+                        options="Oficinas"
+                        data-placeholder-text-single="'{{model.oficina}}'"
+                        data-ng-model="formData.oficina"
+                        data-ng-options="oficina._id as oficina.nombre for oficina in Oficinas">
+                        <option value=""></option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-6" ng-show="_.contains(privilegios,controllerInstance+'-estado')">
+                <label for="estado">{{model.estado}}</label>
+                <div class="form-group">
+                    <div class="radio-inline">
+                        <label><input type="radio" name="estado" value="Activo" ng-model="formData.estado">{{label.active}}</label>
+                    </div>
+                    <div class="radio-inline">
+                        <label><input type="radio" name="estado" value="Inactivo" ng-model="formData.estado">{{label.inactive}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6" ng-class="{ 'has-error': form.fecha_alta.$touched && form.fecha_alta.$invalid }" ng-show="formData.fecha_alta">
+                <label for="fecha_alta">{{model.fecha_alta}}</label>
+                <input type="text" readOnly name="fecha_alta" class="form-control" ng-model="formData.fecha_alta" >
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-left" >
+        <br><a class="button btn btn-default" href="/{{controllerInstance}}"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>  {{label.back}}</a>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-right" >
+        <br><button name="submit" class="btn btn-primary" ng-disabled="formTemp.lockButtonSave"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> {{label.save}}</button>
+    </div>
+</div>
+
+
+<br/>
+</form>

@@ -1,0 +1,197 @@
+<div class=" text-center" ng-init="get()">
+	<h1>{{label.createOrEdit}} {{controlNameSingular}} {{label.other}}</h1>
+    <div id="alertMessage" ng-if="messageShow" ng-class="messageClass" class="alert" role="alert">
+        {{messageText}}
+    </div>
+</div>
+
+<form name="form" ng-submit="createOrUpdate(form.$valid,_id)" novalidate>
+<!--form name="form" ng-submit="updateFichas()" novalidate-->
+    
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-6 col-md-10">
+                {{label.data}} {{label.proveedor}}
+            </div>
+            <div class="col-xs-6 col-md-2  text-right">
+                <button type="button" class="btn btn-warning btn-sm" ng-click="resetProveedor()" ng-hide="formTemp.noEditable">
+                    <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> {{label.delete}} {{label.proveedor}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+    
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <label for="proveedor._id">{{model.proveedor._id}}</label>
+                <select style="width:100%;" chosen
+                        options="Proveedores"
+                        allow-single-deselect='true'
+                        data-placeholder-text-single="'{{model.proveedor._id}}'"
+                        data-ng-model="formData.proveedor._id"
+                        data-ng-options="proveedor._id as proveedor.nombre_completo for proveedor in Proveedores"
+                        ng-change="getDataProveedor()"
+                        ng-disabled="formTemp.lockProveedor">
+                        <option value=""></option>
+                </select>
+            </div>
+        
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.proveedorTelefono.$touched && form.proveedorTelefono.$invalid }">
+                <label for="proveedorTelefono">{{model.proveedor.telefono}}</label>
+                <input type="text" name="proveedorTelefono" class="form-control" placeholder="{{model.proveedor.telefono}}" ng-model="formData.proveedor.telefono" readOnly>
+                <div class="help-block" ng-messages="form.proveedorTelefono.$error" ng-if="form.proveedorTelefono.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.proveedorEmail.$touched && form.proveedorEmail.$invalid }">
+                <label for="proveedorEmail">{{model.proveedor.email}}</label>
+                <input type="email" name="proveedorEmail" class="form-control" placeholder="{{model.proveedor.email}}" ng-model="formData.proveedor.email" readOnly>
+                <div class="help-block" ng-messages="form.proveedorEmail.$error" ng-if="form.proveedorEmail.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-3 text-left" style="padding-top: 25px;" >
+                <button type="button" class="btn btn-info btn-sm" ng-click="getDataFichasByProveedor()" ng-disabled="formTemp.lockProveedor">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> {{label.search}}</button>
+            </div>
+        </div>
+            
+    </div>
+</div>
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-6 col-md-9">
+                {{label.data}} {{label.programas}}
+            </div>
+            <div class="col-xs-6 col-md-3  text-right">
+                <button type="button" class="btn btn-warning btn-sm" ng-click="sellectAllProgramasTable()" ng-hide="formTemp.noEditable">
+                    <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> {{label.seleccionar}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+    
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <table class="table">
+                    <thead>
+                        <th>{{model.programas.ficha}}</th>
+                        <!--th>zIndex</th-->
+                        <th>{{model.programas.nombre}}</th>
+                        <th>{{model.programas.precio}}</th>
+                        <th>{{model.programas.descuento}}</th>
+                        <th>{{model.programas.total}}</th>
+                        <th>{{model.programas.monto_apoyo_terceros}}</th>
+                        <th>{{model.programas.monto_suciqroo}}</th>
+                        <th>{{model.programas.tiene_descuento}}</th>
+                        <th>{{model.programas.cortesia}}</th>
+                        <th ng-hide="formTemp.noEditable">{{label.pagar}}</th>
+                    </thead>
+                    <tbody>
+                        <!--LOPP OVER INSTANCE -->
+                        <tr ng-repeat="instance in formData.programas" ng-show="formData.programas.length > 0">
+                            <td>{{instance.folio_ficha}}</td>
+                            <!--td>{{instance.index}}</td-->
+                            <td>{{instance.nombre}}</td>
+                            <td>{{instance.precio}}</td>
+                            <td>{{instance.descuento}}</td>
+                            <td>{{instance.total}}</td>
+                            <td>{{instance.monto_apoyo_terceros}}</td>
+                            <td>{{instance.monto_suciqroo}}</td>
+                            <td>{{instance.tiene_descuento}}</td>
+                            <td>{{instance.cortesia}}</td>
+                            <td ng-hide="formTemp.noEditable">
+                                    <input type="checkbox" ng-model="instance.toPago" ng-true-value="'Si'" ng-false-value="'No'" ng-change="getTotalPrograma()">
+                            </td>
+                        </tr>
+                        <!--END LOOP -->
+                        <tr ng-if="formData.programas.length <= 0">
+                            <td colspan="6">{{label.noResults}}</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-3 col-md-offset-9" ng-class="{ 'has-error': form.monto_total.$touched && form.monto_total.$invalid }">
+                <label for="monto_total">{{model.monto_total}}</label>
+                <input type="number" name="monto_total" class="form-control" placeholder="{{model.monto_total}}" ng-model="formData.monto_total" readOnly>
+                <div class="help-block" ng-messages="form.monto_total.$error" ng-if="form.monto_total.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">{{label.data}}</div>
+    <div class="panel-body">
+    
+        <div class="row">
+           <div class="col-xs-12 col-md-6" ng-class="{ 'has-error': form.concepto.$touched && form.concepto.$invalid }">
+                <label for="concepto">{{model.concepto}}</label>
+                <textarea type="text" name="concepto" class="form-control" placeholder="{{model.concepto}}" ng-model="formData.concepto" required>
+                </textarea>
+                <div class="help-block" ng-messages="form.concepto.$error" ng-if="form.concepto.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6" ng-class="{ 'has-error': form.comentario.$touched && form.comentario.$invalid }">
+                <label for="comentario">{{model.comentario}}</label>
+                <textarea type="text" name="comentario" class="form-control" placeholder="{{model.comentario}}" ng-model="formData.comentario">
+                </textarea>
+                <div class="help-block" ng-messages="form.comentario.$error" ng-if="form.comentario.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<div class="panel panel-default" ng-show="formTemp.statusEditable">
+    <div class="panel-heading">{{label.data}}</div>
+    <div class="panel-body">
+
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <label for="usuario._id">{{model.usuario._id}} creo:</label> {{formData.usuario.nombre}}<br/>
+                <label for="fecha_alta">{{model.fecha_alta}}:</label> {{formData.usuario.fecha}}<br/>
+                <label for="usuario._id">{{model.usuario._id}} modifico:</label> {{formData.usuario_modifico.nombre}}<br/>
+                <label for="fecha_alta">{{model.fecha_alta}}:</label> {{formData.usuario_modifico.fecha}}
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <label for="folio">{{model.folio}}:</label> {{formData.folio_factura}}<br/>
+                <label for="pagado">{{model.estado}}</label> {{formData.estado}}<br>
+                <button ng-show="_.contains(privilegios,controllerInstance+'-estado')" type="button" class="btn btn-danger btn-sm" ng-click="cancelarFactura()">
+                    <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> {{label.cancel}}</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-left" >
+        <br><a class="button btn btn-default" href="/{{controllerInstance}}"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>  {{label.back}}</a>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-right" >
+        <br><button name="submit" class="btn btn-primary" ng-disabled="formTemp.lockButtonSave"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> {{label.save}}</button>
+    </div>
+</div>
+
+
+<br/>
+</form>

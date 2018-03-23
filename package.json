@@ -1,0 +1,45 @@
+{
+  "name": "EasingIE",
+  "version": "1.0.0",
+  "description": "Sistema de administracion de ingresos y egresos",
+  "keywords": [
+    "OpenShift",
+    "Node.js",
+    "application",
+    "openshift"
+  ],
+  "author": {
+    "name": "Jonathan Chan Canche",
+    "email": "jhon_4394@hotmail.com",
+    "url": "http://www.openshift.com/"
+  },
+  "homepage": "http://www.openshift.com/",
+  "repository": {
+    "type": "git",
+    "url": "ssh://584628277628e14f79000162@easingie-suciqroo.rhcloud.com/~/git/easingie.git/"
+  },
+  "engines": {
+    "node": ">= 0.6.0",
+    "npm": ">= 1.0.0"
+  },
+  "dependencies": {
+    "angular-ui-bootstrap": "^1.2.4",
+    "body-parser": "~1.4.2",
+    "bower": "^1.7.9",
+    "dateformat": "^2.0.0",
+    "express": "~4.5.1",
+    "express-session": "^1.14.0",
+    "jsonwebtoken": "^7.0.1",
+    "method-override": "~2.0.2",
+    "mongoose": "~3.8.0",
+    "mongoose-auto-increment": "^5.0.1",
+    "mongoose-sequence": "^3.1.0",
+    "morgan": "^1.7.0",
+    "socket.io": "^1.4.5",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {},
+  "bundleDependencies": [],
+  "private": true,
+  "main": "server.js"
+}

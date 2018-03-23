@@ -1,0 +1,416 @@
+<div class=" text-center" ng-init="get()">
+    <h1>{{label.createOrEdit}} {{controlNameSingular}}</h1>
+    <div ng-if="messageShow" ng-class="messageClass" class="alert" role="alert">
+        {{messageText}}
+    </div>
+</div>
+
+<form name="form" ng-submit="createOrUpdate(form.$valid,_id)" novalidate>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Datos Personales</div>
+    <div class="panel-body">
+    
+        <div class="row">
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.nombre.$touched && form.nombre.$invalid }">
+                <label for="nombre">{{model.nombre}}</label>
+                <input type="text" name="nombre" class="form-control" placeholder="{{model.nombre}}" ng-model="formData.nombre" required>
+                <div class="help-block" ng-messages="form.nombre.$error" ng-if="form.nombre.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.apPaterno.$touched && form.apPaterno.$invalid }">
+                <label for="apPaterno">{{model.apPaterno}}</label>
+                <input type="text" name="apPaterno" class="form-control" placeholder="{{model.apPaterno}}" ng-model="formData.apPaterno" required>
+                <div class="help-block" ng-messages="form.apPaterno.$error" ng-if="form.apPaterno.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.apMaterno.$touched && form.apMaterno.$invalid }">
+                <label for="apMaterno">{{model.apMaterno}}</label>
+                <input type="text" name="apMaterno" class="form-control" placeholder="{{model.apMaterno}}" ng-model="formData.apMaterno" required>
+                <div class="help-block" ng-messages="form.apMaterno.$error" ng-if="form.apMaterno.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.telefono.$touched && form.telefono.$invalid }">
+                <label for="telefono">{{model.telefono}}</label>
+                <input type="text" name="telefono" class="form-control" placeholder="{{model.telefono}}" ng-model="formData.telefono" required>
+                <div class="help-block" ng-messages="form.telefono.$error" ng-if="form.telefono.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.email.$touched && form.email.$invalid }">
+                <label for="email">{{model.email}}</label>
+                <input type="email" name="email" class="form-control" placeholder="{{model.email}}" ng-model="formData.email" >
+                <div class="help-block" ng-messages="form.email.$error" ng-if="form.email.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.edad.$touched && form.edad.$invalid }">
+                <label for="edad">Edad</label>
+                <input type="number" name="edad" class="form-control" placeholder="Edad" ng-model="formData.edad" min="0" max="100" required>
+                <div class="help-block" ng-messages="form.edad.$error" ng-if="form.edad.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3">
+                <label for="sexo">Sexo</label>
+                <div class="form-group">
+                    <div class="radio-inline">
+                        <label><input type="radio" name="sexo" value="Hombre" ng-model="formData.sexo">Hombre</label>
+                    </div>
+                    <div class="radio-inline">
+                        <label><input type="radio" name="sexo" value="Mujer" ng-model="formData.sexo">Mujer</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.peso.$touched && form.peso.$invalid }">
+                <label for="peso">Peso (Kg)</label>
+                <input type="number" name="peso" class="form-control" placeholder="Peso" ng-model="formData.peso" min="0" max="1000" required>
+                <div class="help-block" ng-messages="form.peso.$error" ng-if="form.peso.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.talla.$touched && form.talla.$invalid }">
+                <label for="talla">Talla/Altura (Cm)</label>
+                <input type="number" name="talla" class="form-control" placeholder="Talla" ng-model="formData.talla" min="0" max="1000"required>
+                <div class="help-block" ng-messages="form.talla.$error" ng-if="form.talla.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.ta.$touched && form.ta.$invalid }">
+                <label for="ta">T.A.</label>
+                <input type="text" name="ta" class="form-control" placeholder="T.A." ng-model="formData.ta" required>
+                <div class="help-block" ng-messages="form.ta.$error" ng-if="form.ta.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.pulso.$touched && form.pulso.$invalid }">
+                <label for="pulso">Pulso</label>
+                <input type="number" name="pulso" class="form-control" placeholder="Pulso" ng-model="formData.pulso" required>
+                <div class="help-block" ng-messages="form.pulso.$error" ng-if="form.pulso.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.lugar_nacimiento.$touched && form.lugar_nacimiento.$invalid }">
+                <label for="lugar_nacimiento">Lugar Nacimiento</label>
+                <input type="text" name="lugar_nacimiento" class="form-control" placeholder="Lugar Nacimiento" ng-model="formData.lugar_nacimiento" required>
+                <div class="help-block" ng-messages="form.lugar_nacimiento.$error" ng-if="form.lugar_nacimiento.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.fecha_nacimiento.$touched && form.fecha_nacimiento.$invalid }">
+                <label ui-mask="99/99/9999" type="date" for="fecha_nacimiento">Fecha Nacimiento (Dia/Mes/Año)</label>
+                <p class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" name="fecha_nacimiento" ng-model="formData.fecha_nacimiento" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open(1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </p>
+                <div class="help-block" ng-messages="form.fecha_nacimiento.$error" ng-if="form.fecha_nacimiento.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.estado_civil.$touched && form.estado_civil.$invalid }">
+                <label for="estado_civil">Estado Civil</label>
+                <select name="estado_civil" id="estado_civil" ng-model="formData.estado_civil" class="col-xs-12 col-md-12" required>
+                    <option value="">-- Seleccione una opción --</option>
+                    <option ng-repeat="option in estado_civiles" value="{{option}}">{{option}}</option>
+                </select>
+                <div class="help-block" ng-messages="form.estado_civil.$error" ng-if="form.estado_civil.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.escolaridad.$touched && form.escolaridad.$invalid }">
+                <label for="escolaridad">Escolaridad</label>
+                <select name="escolaridad" id="escolaridad" ng-model="formData.escolaridad" class="col-xs-12 col-md-12" required>
+                    <option value="">-- Seleccione una opción --</option>
+                    <option ng-repeat="option in escolaridades" value="{{option}}">{{option}}</option>
+                </select>
+                <div class="help-block" ng-messages="form.escolaridad.$error" ng-if="form.escolaridad.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Datos Personales No Patologicos</div>
+    <div class="panel-body">
+    
+        <div class="row">
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.religion.$touched && form.religion.$invalid }">
+                <label for="religion">Religión</label>
+                <input type="text" name="religion" class="form-control" placeholder="Religión" ng-model="formData.religion" required>
+                <div class="help-block" ng-messages="form.religion.$error" ng-if="form.religion.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.sedentarismo.$touched && form.sedentarismo.$invalid }">
+                <label for="sedentarismo">Sedentarismo</label>
+                <select name="sedentarismo" id="sedentarismo" ng-model="formData.sedentarismo" class="col-xs-12 col-md-12" required>
+                    <option value="">-- Seleccione una opción --</option>
+                    <option ng-repeat="option in si_no" value="{{option}}">{{option}}</option>
+                </select>
+                <div class="help-block" ng-messages="form.sedentarismo.$error" ng-if="form.sedentarismo.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.tipo_relaciones_sexuales.$touched && form.tipo_relaciones_sexuales.$invalid }">
+                <label for="tipo_relaciones_sexuales">Tipo de Relaciones Sexuales</label>
+                <select name="tipo_relaciones_sexuales" id="tipo_relaciones_sexuales" ng-model="formData.tipo_relaciones_sexuales" class="col-xs-12 col-md-12" required>
+                    <option value="">-- Seleccione una opción --</option>
+                    <option ng-repeat="option in tipo_relaciones_sexuales" value="{{option}}">{{option}}</option>
+                </select>
+                <div class="help-block" ng-messages="form.tipo_relaciones_sexuales.$error" ng-if="form.tipo_relaciones_sexuales.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.parejas_sexuales.$touched && form.parejas_sexuales.$invalid }">
+                <label for="parejas_sexuales">No. de Parejas Sexuales</label>
+                <input type="number"  name="parejas_sexuales" class="form-control" placeholder="No. de Parejas Sexuales" ng-model="formData.parejas_sexuales" min="0" required>
+                <div class="help-block" ng-messages="form.parejas_sexuales.$error" ng-if="form.parejas_sexuales.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.alimentacion.$touched && form.alimentacion.$invalid }">
+                <label for="alimentacion">Alimentación</label>
+                <select name="alimentacion" id="alimentacion" ng-model="formData.alimentacion" class="col-xs-12 col-md-12" required>
+                    <option value="">-- Seleccione una opción --</option>
+                    <option ng-repeat="option in buena_regular_mala" value="{{option}}">{{option}}</option>
+                </select>
+                <div class="help-block" ng-messages="form.alimentacion.$error" ng-if="form.alimentacion.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.habitacion.$touched && form.habitacion.$invalid }">
+                <label for="habitacion">Habitación</label>
+                <select name="habitacion" id="habitacion" ng-model="formData.habitacion" class="col-xs-12 col-md-12" required>
+                    <option value="">-- Seleccione una opción --</option>
+                    <option ng-repeat="option in buena_regular_mala" value="{{option}}">{{option}}</option>
+                </select>
+                <div class="help-block" ng-messages="form.habitacion.$error" ng-if="form.habitacion.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.higiene.$touched && form.higiene.$invalid }">
+                <label for="higiene">Higiene</label>
+                <select name="higiene" id="higiene" ng-model="formData.higiene" class="col-xs-12 col-md-12" required>
+                    <option value="">-- Seleccione una opción --</option>
+                    <option ng-repeat="option in buena_regular_mala" value="{{option}}">{{option}}</option>
+                </select>
+                <div class="help-block" ng-messages="form.higiene.$error" ng-if="form.higiene.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.ocupacion.$touched && form.ocupacion.$invalid }">
+                <label for="ocupacion">Ocupación</label>
+                <input type="text" name="ocupacion" class="form-control" placeholder="Ocupación" ng-model="formData.ocupacion" required>
+                <div class="help-block" ng-messages="form.ocupacion.$error" ng-if="form.ocupacion.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.tabaquismo.$touched && form.tabaquismo.$invalid }">
+                <label for="tabaquismo">Tabaquismo</label>
+                <select name="tabaquismo" id="tabaquismo" ng-model="formData.tabaquismo" class="col-xs-12 col-md-12" required>
+                    <option value="">-- Seleccione una opción --</option>
+                    <option ng-repeat="option in si_no" value="{{option}}">{{option}}</option>
+                </select>
+                <div class="help-block" ng-messages="form.tabaquismo.$error" ng-if="form.tabaquismo.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.alcoholismo.$touched && form.alcoholismo.$invalid }">
+                <label for="alcoholismo">Alcoholismo</label>
+                <select name="alcoholismo" id="alcoholismo" ng-model="formData.alcoholismo" class="col-xs-12 col-md-12" required>
+                    <option value="">-- Seleccione una opción --</option>
+                    <option ng-repeat="option in si_no" value="{{option}}">{{option}}</option>
+                </select>
+                <div class="help-block" ng-messages="form.alcoholismo.$error" ng-if="form.alcoholismo.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Datos Hereditarios y Familiares</div>
+    <div class="panel-body">
+    
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <label for="quirurgicos">Quirurgicos</label>
+                <input name="quirurgicos" class="form-control" placeholder="Quirurgicos" ng-model="formData.quirurgicos">
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <label for="traumaticos">Traumaticos</label>
+                <input name="traumaticos" class="form-control" placeholder="Traumaticos" ng-model="formData.traumaticos">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <label for="alergicos">Alergicos</label>
+                <input name="alergicos" class="form-control" placeholder="Alergicos" ng-model="formData.alergicos">
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <label for="transfusion">Transfusión</label>
+                <input name="transfusion" class="form-control" placeholder="Transfusión" ng-model="formData.transfusion">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <label for="enfermedades_infecto_contagiosas">Enfermedades infecto-contagiosas</label>
+                <input name="enfermedades_infecto_contagiosas" class="form-control" placeholder="Enfermedades infecto-contagiosas" ng-model="formData.enfermedades_infecto_contagiosas">
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <label for="diabeticos">Diabeticos</label>
+                <input name="diabeticos" class="form-control" placeholder="Diabeticos" ng-model="formData.diabeticos">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <label for="oncologicos">Oncologicos</label>
+                <input name="oncologicos" class="form-control" placeholder="Oncologicos" ng-model="formData.oncologicos">
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <label for="congenitos">Congenitos</label>
+                <input name="congenitos" class="form-control" placeholder="Congenitos" ng-model="formData.congenitos">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <label for="enfermedades_degenerativas">Enfermedades Degenerativas</label>
+                <input name="enfermedades_degenerativas" class="form-control" placeholder="Enfermedades Degenerativas" ng-model="formData.enfermedades_degenerativas">
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <label for="otros_hereditarios">Otros Hereditarios</label>
+                <input name="otros_hereditarios" class="form-control" placeholder="Otros Hereditarios" ng-model="formData.otros_hereditarios">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div ng-if="formData.sexo=='Mujer'">
+<div class="panel panel-default">
+    <div class="panel-heading">Datos Personales Mujer</div>
+    <div class="panel-body">
+    
+        <div class="row">
+            <div class="col-xs-12 col-md-3">
+                <label for="menarca">Menarca</label>
+                <input name="menarca" class="form-control" placeholder="Menarca" ng-model="formData.menarca">
+            </div>
+            <div class="col-xs-12 col-md-3">
+                <label for="ritmo">Ritmo</label>
+                <input name="ritmo" class="form-control" placeholder="Ritmo" ng-model="formData.ritmo">
+            </div>
+            <div class="col-xs-12 col-md-3">
+                <label for="ivsa">ivsa</label>
+                <input type="number" name="ivsa" class="form-control" placeholder="ivsa" ng-model="formData.ivsa">
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.fur.$touched && form.fur.$invalid }">
+                <label ui-mask="99/99/9999" type="date" for="fur">Fecha última regla (Dia/Mes/Año)</label>
+                <p class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" name="fur" ng-model="formData.fur" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open(2)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </p>
+                <div class="help-block" ng-messages="form.fur.$error" ng-if="form.fur.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-3">
+                <label for="epe">Edad de primer embarazo</label>
+                <input type="number" name="epe" class="form-control" placeholder="Edad de primer embarazo" ng-model="formData.epe">
+            </div>
+            <div class="col-xs-12 col-md-3">
+                <label for="embarazos">Embarazos</label>
+                <input type="number" name="embarazos" class="form-control" placeholder="Embarazos" ng-model="formData.embarazos">
+            </div>
+            <div class="col-xs-12 col-md-3">
+                <label for="partos">Partos</label>
+                <input type="number" name="partos" class="form-control" placeholder="Partos" ng-model="formData.partos">
+            </div>
+            <div class="col-xs-12 col-md-3">
+                <label for="abortos">Abortos</label>
+                <input type="number" name="abortos" class="form-control" placeholder="Abortos" ng-model="formData.abortos">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-3">
+                <label for="cesareas">Cesareas</label>
+                <input type="number" name="cesareas" class="form-control" placeholder="Cesareas" ng-model="formData.cesareas">
+            </div>
+            <div class="col-xs-12 col-md-3">
+                <label for="mpf">Método de planificación familiar</label>
+                <input name="mpf" class="form-control" placeholder="Método de planificación familiar" ng-model="formData.mpf">
+            </div>
+            <div class="col-xs-12 col-md-3">
+                <label for="lactancia">Lactancia</label>
+                <input name="lactancia" class="form-control" placeholder="Lactancia" ng-model="formData.lactancia">
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.fue.$touched && form.fue.$invalid }">
+                <label ui-mask="99/99/9999" type="date" for="fue">Fecha último embarazo (Dia/Mes/Año)</label>
+                <p class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" name="fue" ng-model="formData.fue" is-open="popup3.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open(3)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </p>
+                <div class="help-block" ng-messages="form.fue.$error" ng-if="form.fue.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-xs-12 col-md-3">
+                <label for="numero_hijos">Número de hijos</label>
+                <input type="number" name="numero_hijos" class="form-control" placeholder="Número de hijos" ng-model="formData.numero_hijos">
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+
+
+<!--div class="row">
+    <div class="col-xs-12 col-md-3">
+        <label for="estado">estado</label>
+        <input name="estado" class="form-control" placeholder="estado" ng-model="formData.estado">
+    </div>
+</div-->
+
+
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-left" >
+        <br><a class="button btn btn-default" href="/{{controllerInstance}}"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>  {{label.back}}</a>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-right" >
+        <br><button name="submit" class="btn btn-primary" ng-disabled="formTemp.lockButtonSave"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> {{label.save}}</button>
+    </div>
+</div>
+
+
+<br/>
+</form>

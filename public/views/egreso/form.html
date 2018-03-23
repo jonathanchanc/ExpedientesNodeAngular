@@ -1,0 +1,136 @@
+<div class=" text-center" ng-init="get()">
+    <h1>{{label.createOrEdit}} {{controlNameSingular}} {{label.other}}</h1>
+    <div ng-if="messageShow" ng-class="messageClass" class="alert" role="alert">
+        {{messageText}}
+    </div>
+</div>
+
+<form name="form" ng-submit="createOrUpdate(form.$valid,_id)" novalidate>
+
+<div class="panel panel-default">
+    <div class="panel-heading">{{label.data}} {{label.egreso}}</div>
+    <div class="panel-body">
+    
+        <div class="row">
+            <div class="col-xs-12 col-md-3">
+                <label for="oficina">{{model.oficina.nombre}} {{formData.oficina.nombre}}</label>
+                <select style="width:100%;" chosen
+                        options="Oficinas"
+                        allow-single-deselect='true'
+                        data-placeholder-text-single="'{{model.oficina.nombre}}'"
+                        data-ng-model="formData.oficina._id"
+                        data-ng-options="oficina._id as oficina.nombre for oficina in Oficinas"
+                        ng-change="getDataOficina()">
+                        <option value=""></option>
+                </select>
+            </div>
+
+
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.fecha.$touched && form.fecha.$invalid }">
+                <label ui-mask="99/99/9999" type="date" for="fecha">Fecha (Dia/Mes/Año)</label>
+                <p class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" name="fecha" ng-model="formData.fecha" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open(1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </p>
+                <div class="help-block" ng-messages="form.fecha.$error" ng-if="form.fecha.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+
+
+
+            <!--div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.fecha.$touched && form.fecha.$invalid }">
+                <label for="fecha">{{model.fecha}}</label>
+                <input type="text" name="fecha" class="form-control" placeholder="{{model.fecha}}" ng-model="formData.fecha" required>
+                <div class="help-block" ng-messages="form.fecha.$error" ng-if="form.fecha.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div-->
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.concepto.$touched && form.concepto.$invalid }">
+                <label for="concepto">{{model.concepto}}</label>
+                <input type="text" name="concepto" class="form-control" placeholder="{{model.concepto}}" ng-model="formData.concepto" required>
+                <div class="help-block" ng-messages="form.concepto.$error" ng-if="form.concepto.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.descripcion.$touched && form.descripcion.$invalid }">
+                <label for="descripcion">{{model.descripcion}}</label>
+                <input type="text" name="descripcion" class="form-control" placeholder="{{model.descripcion}}" ng-model="formData.descripcion">
+                <div class="help-block" ng-messages="form.descripcion.$error" ng-if="form.descripcion.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.monto_salida.$touched && form.monto_salida.$invalid }">
+                <label for="monto_salida">{{model.monto_salida}}</label>
+                <input type="number" name="monto_salida" class="form-control" placeholder="{{model.monto_salida}}" ng-model="formData.monto_salida" ng-change="calculateCambio()" min='0' required>
+                <div class="help-block" ng-messages="form.monto_salida.$error" ng-if="form.monto_salida.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.monto_total.$touched && form.monto_total.$invalid }">
+                <label for="monto_total">{{model.monto_total}}</label>
+                <input type="number" name="monto_total" class="form-control" placeholder="{{model.monto_total}}" ng-model="formData.monto_total" ng-change="calculateCambio()" min='0' required>
+                <div class="help-block" ng-messages="form.monto_total.$error" ng-if="form.monto_total.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.monto_cambio.$touched && form.monto_cambio.$invalid }">
+                <label for="monto_cambio">{{model.monto_cambio}}</label>
+                <input type="number" name="monto_cambio" class="form-control" placeholder="{{model.monto_cambio}}" ng-model="formData.monto_cambio" readOnly>
+                <div class="help-block" ng-messages="form.monto_cambio.$error" ng-if="form.monto_cambio.$touched">
+                        <div ng-messages-include="error-messages"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" ng-show="formTemp.statusEditable">
+    <div class="panel-heading">{{label.data}}</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <label for="folio">{{model.folio}}:</label> {{formData.folio_egreso}}<br/>
+                <label for="creo">{{model.usuario.creo}}:</label> {{formData.usuario.nombre}}<br/>
+                <label for="fecha_creo">{{model.usuario.fecha_creo}}:</label> {{formData.usuario.fecha}}<br/>
+                <label for="modifico">{{model.usuario.modifico}}:</label> {{formData.usuario_modifico.nombre}}<br/>
+                <label for="fecha_modifico">{{model.usuario.fecha_modifico}}:</label> {{formData.usuario_modifico.fecha}}
+            </div>
+            <div class="col-xs-12 col-md-6" ng-show="formData.factura && _.contains(privilegios,controllerInstance+'-estado')">
+                <label for="factura">{{model.factura}}:</label> {{formData.factura.folio_factura}}<br/>
+                <label for="pagado">{{model.estado}}</label> {{formData.estado}}<br/>
+                <p ng-show='formData.estado == "Activo"'>*Si se desea desactivar este registro, es necesario deasctivar la factura</p><br>
+            </div>
+            <div class="col-xs-12 col-md-6" ng-hide="formData.factura || !(_.contains(privilegios,controllerInstance+'-estado'))">
+                <label for="pagado">{{model.estado}}</label>
+                <div class="form-group">
+                    <div class="radio-inline">
+                        <label><input type="radio" name="estado" value="Activo" ng-model="formData.estado">{{label.active}}</label>
+                    </div>
+                    <div class="radio-inline">
+                        <label><input type="radio" name="estado" value="Inactivo" ng-model="formData.estado">{{label.inactive}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-left" >
+        <br><a class="button btn btn-default" href="/{{controllerInstance}}"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>  {{label.back}}</a>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-right" >
+        <br><button name="submit" class="btn btn-primary" ng-disabled="formTemp.lockButtonSave"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> {{label.save}}</button>
+    </div>
+</div>
+
+
+<br/>
+</form>

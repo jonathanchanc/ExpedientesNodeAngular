@@ -1,0 +1,15 @@
+{
+  "name": "angular",
+  "version": "1.0.0",
+  "dependencies": {
+    "bootstrap": "latest",
+    "angular": "latest",
+    "angular-route": "latest",
+    "ngstorage": "^0.3.10",
+    "angular-messages": "^1.5.8",
+    "angular-chosen-localytics": "^1.5.0",
+    "underscore": "^1.8.3",
+    "angular-loading-bar": "^0.9.0",
+    "pdfmake": "^0.1.20"
+  }
+}

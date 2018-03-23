@@ -1,0 +1,76 @@
+<div class="text-center" ng-init="inicio()">
+	<h1>{{controlNamePlural}}</h1>
+    <div ng-if="messageShow" ng-class="messageClass" class="alert alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {{messageText}}
+        <a hrefa="#" class="alert-link" ng-click="pagination(0)" ng-show="searchData.active">{{label.backToList}}</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-md-3">
+        <input type="data" class="form-control" placeholder="Buscar" ng-model="searchData.data" 
+        key-bind="{ enter: 'pagination(1)', esc: 'pagination(0)' }" >
+    </div>
+    <div class="col-xs-6 col-md-1">
+        <button type="submit" class="btn btn-primary btn-sm" ng-click="pagination(1)">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> {{label.search}}</button>
+    </div>
+    <div class="col-xs-6 col-md-1 text-right">
+        <button type="submit" class="btn btn-info btn-sm" ng-click="pagination(0)" ng-show="searchData.active">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"> {{label.list}}</button>
+    </div>
+
+    <div class="col-xs-12 col-md-7 text-right" ng-show="_.contains(privilegios,controllerInstance+'-crear')">
+        <a class="button btn btn-primary" href="/{{controllerInstance}}/create">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{label.add}} {{controlNameSingular}}</a>
+    </div>
+</div>
+
+<div class="row" >
+    <div class="col-xs-12 col-md-12">
+        <table class="table">
+            <thead>
+                <th>{{model.numero_expediente}}</th>
+                <th>{{model.nombre}}</th>
+                <th>{{model.telefono}}</th>
+                <th>{{model.email}}</th>
+                <th>{{model.edad}}</th>
+                <th>{{model.lugar_nacimiento}}</th>
+                <th>{{model.fecha_nacimiento}}</th>
+                <th>{{model.estado}}</th>
+                <th ng-show="_.contains(privilegios,controllerInstance+'-editar')">{{label.edit}}</th>
+            </thead>
+            <tbody>
+                <!--LOPP OVER INSTANCE -->
+                <tr ng-repeat="instance in instanceList" ng-show="instanceList.length > 0">
+                    <td>{{instance.numero_expediente}}</td>
+                    <td>{{instance.nombre_completo}}</td>
+                    <td>{{instance.telefono}}</td>
+                    <td>{{instance.email}}</td>
+                    <td>{{instance.edad}}</td>
+                    <td>{{instance.lugar_nacimiento}}</td>
+                    <td>{{instance.fecha_nacimiento_corta}}</td>
+                    <td>{{instance.estado}}</td>
+                    <td><a ng-show="_.contains(privilegios,controllerInstance+'-editar')" class="button btn btn-success" href="/{{controllerInstance}}/update/{{instance._id}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>  {{label.edit}}</a></td>
+                </tr>
+                <!--END LOOP -->
+                <tr ng-if="instanceList.length <= 0">
+                    <td colspan="6">{{label.noResults}}</td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+     <div class="col-xs-12 col-md-8">
+        <ul ng-show="totalItems > itemsPerPage" uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage" ng-change="pagination()" boundary-links="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+    </div>
+    <div class="col-xs-9 col-md-3 text-right" style="padding: 30px; vertical-align: middle;">
+        {{textPagination}}
+    </div>
+    <div class="col-xs-3 col-md-1 text-right" style="padding-top: 20px; vertical-align: middle;">
+        <input type="number" class="form-control" placeholder="Paginas" ng-model="itemsPerPage" ng-keyup="pagination()" ng-click="pagination()">
+    </div>
+</div>

@@ -1,0 +1,198 @@
+
+<div class="text-center" ng-init="inicio()">
+	<h1>{{controlNamePlural}}</h1>
+</div>
+
+<div class="row">
+	<div class="col-xs-12 col-md-4">
+	    <label for="reporte">{{model.reporte}}</label>
+	    <select style="width:100%;" chosen
+	    		options="Reportes"
+	            allow-single-deselect='true'
+	            data-placeholder-text-single="'{{model.reporte}}'"
+	            data-ng-model="formData.reporte._id"
+	            data-ng-options="reporte._id as reporte.nombre for reporte in Reportes"
+	            ng-change='getDataReporte()'>
+	            <option value=""></option>
+	    </select>
+	</div>
+</div>
+
+<!-- FILTROS -->
+<div class="row" >
+    <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.$gte.$touched && form.$gte.$invalid }" ng-show="filtros.$gte">
+        <label ui-mask="99/99/9999" type="date" for="$gte">{{modelTemp.$gte}} (Dia/Mes/Año)</label>
+        <p class="input-group">
+            <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" name="$gte" ng-model="formTemp.$gte" max-date="formTemp.$lte" is-open="popup1.opened" datepicker-options="dateOptionsIni" ng-required="true" close-text="Close" />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open(1)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+        </p>
+        <div class="help-block" ng-messages="form.$gte.$error" ng-if="form.$gte.$touched">
+                <div ng-messages-include="error-messages"></div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.$lte.$touched && form.$lte.$invalid }" ng-show="filtros.$lte">
+        <label ui-mask="99/99/9999" type="date" for="$lte">{{modelTemp.$lte}} (Dia/Mes/Año)</label>
+        <p class="input-group">
+            <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" name="$lte" ng-model="formTemp.$lte" min-date="formTemp.$gte" is-open="popup2.opened" datepicker-options="dateOptionsFin" ng-required="true" close-text="Close" />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open(2)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+        </p>
+        <div class="help-block" ng-messages="form.$lte.$error" ng-if="form.$lte.$touched">
+                <div ng-messages-include="error-messages"></div>
+        </div>
+    </div>
+    <!--div class="col-xs-12 col-md-3" ng-class="{ 'has-error': form.fecha_ini.$touched && form.fecha_ini.$invalid }" ng-show="filtros.fecha_ini">
+        <label for="fecha_ini">{{modelTemp.fecha_ini}}</label>
+        <input type="text" name="fecha_ini" class="form-control" placeholder="{{modelTemp.fecha_ini}}" ng-model="formData.fecha_ini" >
+        <div class="help-block" ng-messages="form.fecha_ini.$error" ng-if="form.fecha_ini.$touched">
+                <div ng-messages-include="error-messages"></div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-3" ng-show="filtros.fecha_fin">
+        <label for="fecha_fin">{{modelTemp.fecha_fin}}</label>
+        <input type="text" name="fecha_fin" class="form-control" placeholder="{{modelTemp.fecha_fin}}" ng-model="formData.fecha_fin" >
+        <div class="help-block" ng-messages="form.fecha_fin.$error" ng-if="form.fecha_fin.$touched">
+                <div ng-messages-include="error-messages"></div>
+        </div>
+    </div-->
+    <div class="col-xs-12 col-md-3" ng-show="filtros.estado">
+        <label for="estado">{{modelTemp.estado}}</label>
+        <select style="width:100%;" chosen
+                data-placeholder-text-single="'{{modelTemp.estado}}'"
+                data-ng-model="formTemp.estado">
+                <option value="">Todos</option>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+        </select>
+    </div>
+    <div class="col-xs-12 col-md-3" ng-show="filtros.pagado">
+        <label for="pagado">{{modelTemp.pagado}}</label>
+        <select style="width:100%;" chosen
+                data-placeholder-text-single="'{{modelTemp.pagado}}'"
+                data-ng-model="formTemp.pagado">
+                <option value="">Todos</option>
+                <option value="Si">Si</option>
+                <option value="No">No</option>
+        </select>
+    </div>
+    <!--div class="col-xs-12 col-md-3" ng-show="filtros.estado">
+        <label for="estado">{{model.estado}}</label>
+        <div class="form-group">
+            <div class="radio-inline">
+                <label><input type="radio" name="estado" value="Activo" ng-model="formTemp.estado">{{label.active}}</label>
+            </div>
+            <div class="radio-inline">
+                <label><input type="radio" name="estado" value="Inactivo" ng-model="formTemp.estado">{{label.inactive}}</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 col-md-3" ng-show="filtros.pagado">
+        <label for="pagado">{{modelTemp.pagado}}</label>
+        <div class="form-group">
+            <div class="radio-inline">
+                <label><input type="radio" name="pagado" value="Si" ng-model="formTemp.pagado">{{label.yes}}</label>
+            </div>
+            <div class="radio-inline">
+                <label><input type="radio" name="pagado" value="No" ng-model="formTemp.pagado">{{label.no}}</label>
+            </div>
+        </div>
+    </div-->
+</div>
+
+<div class="row" >
+    <div class="col-xs-12 col-md-3" ng-show="filtros.cliente">
+        <label for="cliente">{{modelTemp.cliente}}</label>
+        <select style="width:100%;" chosen
+                options="Clientes"
+                allow-single-deselect='true'
+                data-placeholder-text-single="'{{modelTemp.cliente}}'"
+                data-ng-model="formTemp.cliente"
+                data-ng-options="cliente._id as cliente.nombre_completo + ((cliente.credencial)? ' - '+cliente.credencial : '') for cliente in Clientes">
+                <option value=""></option>
+        </select>
+    </div>
+    <div class="col-xs-12 col-md-3" ng-show="filtros.especialidad">
+        <label for="especialidad">{{modelTemp.especialidad}}</label>
+        <select style="width:100%;" chosen
+                options="Especialidades"
+                allow-single-deselect='true'
+                data-placeholder-text-single="'{{modelTemp.especialidad}}'"
+                data-ng-model="formTemp.especialidad"
+                data-ng-options="especialidad._id as especialidad.nombre for especialidad in Especialidades">
+                <option value=""></option>
+        </select>
+    </div>
+    <div class="col-xs-12 col-md-3" ng-show="filtros.programa">
+        <label for="programa">{{modelTemp.programa}}</label>
+        <select style="width:100%;" chosen
+                options="Programas"
+                allow-single-deselect='true'
+                data-placeholder-text-single="'{{modelTemp.programa}}'"
+                data-ng-model="formTemp.programa"
+                data-ng-options="programa._id as programa.nombre for programa in Programas"
+                ng-change="getDataPrograma()">
+                <option value=""></option>
+        </select>
+    </div>
+    <div class="col-xs-12 col-md-3" ng-show="filtros.proveedor">
+        <label for="proveedor">{{modelTemp.proveedor}}</label>
+        <select style="width:100%;" chosen
+                options="Proveedores"
+                allow-single-deselect='true'
+                data-placeholder-text-single="'{{modelTemp.proveedor}}'"
+                data-ng-model="formTemp.proveedor"
+                data-ng-options="proveedor._id as proveedor.nombre_completo for proveedor in Proveedores">
+                <option value=""></option>
+        </select>
+    </div>
+</div>
+
+<div class="row" >
+    <div class="col-xs-12 col-md-3" ng-show="filtros.usuario">
+        <label for="usuario">{{modelTemp.usuario}}</label>
+        <select style="width:100%;" chosen
+                options="Usuarios"
+                allow-single-deselect='true'
+                data-placeholder-text-single="'{{modelTemp.usuario}}'"
+                data-ng-model="formTemp.usuario"
+                data-ng-options="usuario._id as usuario.nombre_completo for usuario in Usuarios">
+                <option value=""></option>
+        </select>
+    </div>
+    <div class="col-xs-12 col-md-3" ng-show="filtros.ficha">
+        <label for="ficha">{{modelTemp.ficha}}</label>
+        <select style="width:100%;" chosen 
+                options="Fichas"
+                allow-single-deselect='true'
+                data-placeholder-text-single="'{{modelTemp.ficha}}'"
+                data-ng-model="formTemp.ficha"
+                data-ng-options="ficha._id as ficha.folio_ficha for ficha in Fichas">
+                <option value=""></option>
+        </select>
+    </div>
+    <div class="col-xs-12 col-md-3" ng-show="filtros.factura">
+        <label for="factura">{{modelTemp.factura}}</label>
+        <select style="width:100%;" chosen 
+                options="Facturas"
+                allow-single-deselect='true'
+                data-placeholder-text-single="'{{modelTemp.factura}}'"
+                data-ng-model="formTemp.factura"
+                data-ng-options="factura._id as factura.folio_factura for factura in Facturas">
+                <option value=""></option>
+        </select>
+    </div>
+</div>
+
+<div>
+    <br>
+    <button ng-click="getPdf(false)">consultar</button>
+    <button ng-click="getPdf(true)">descargar</button>
+    <!--button ng-click="openPdfOld()">{{model.consultar}} old</button-->
+    <!--button ng-click="createPdf()">{{model.consultar}} New</button>
+    <button ng-click="createPdf2()">{{model.consultar}} 2</button>
+    <button ng-click="downloadPdf()">{{model.descargar}}</button-->
+</div>
+
