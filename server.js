@@ -13,9 +13,9 @@ app.set('server', server);
 //var server_port = process.env.OPENSHIFT_NODEJS_PORT || 3000
 //var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 
-var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000,
-    ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1',
-    mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL || '127.0.0.1:27017/expedientes',
+var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
+    ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
+    mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
     mongoURLLabel = "";
 
 if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
