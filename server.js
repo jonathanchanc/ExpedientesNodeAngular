@@ -99,4 +99,7 @@ server.listen(port, ip, function () {
 exports = module.exports = app;                         // expose app
 
 //Importar desde archivo csv
+//mongo -u $MONGODB_USER -p $MONGODB_PASSWORD $MONGODB_DATABASE
+//mongoexport --db expedientes --collection privilegios --csv -out priv.csv
+//mongoexport --db expedientes --collection users --csv --out users.csv --fields usuario,token
 //mongoimport --db expedientes --collection privilegios --type csv --headerline --file priv.csv

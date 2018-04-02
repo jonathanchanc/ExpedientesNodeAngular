@@ -147,6 +147,7 @@ angular.module('RolCtrl',[])
 						$scope._id = $routeParams.instanceId;
 						$scope.formData = angular.copy(data);
 						$scope.label.createOrEdit = $scope.label.edit;
+						//console.log(data);
 					})
 					.error(function(data, status) {
 						$scope.showMessage(true,$scope.messageAlertSuccess,$scope.label.noFindRow,status,data);

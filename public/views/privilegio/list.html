@@ -46,6 +46,7 @@
                     <td>{{instance.descripcion}}</td>
                     <td>{{instance.estado}}</td>
                     <td><a ng-show="_.contains(privilegios,controllerInstance+'-editar')" class="button btn btn-success" href="/{{controllerInstance}}/update/{{instance._id}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>  {{label.edit}}</a></td>
+                    <!--td><button ng-show="_.contains(privilegios,controllerInstance+'-editar')" class="button btn btn-danger" ng-click="delete(instance._id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>  {{label.delete}}</button></td-->
                 </tr>
                 <!--END LOOP -->
                 <tr ng-if="instanceList.length <= 0">

@@ -37,6 +37,7 @@ module.exports = function(app) {
 
 	//User Functions
 	app.post('/api/main/authenticate', authenticate);
+	app.get('/inicializr', inicializar);
 	//app.post('/api/signin', signin);
 	app.get('/api/main/me', ensureAuthorized, me);
 	app.post('/api/main/privilegios', ensureAuthorized, getPrivilegios);
@@ -160,9 +161,6 @@ module.exports = function(app) {
 	app.get('*', function(req, res) {
 		res.sendfile('./public/index.html');
 	});
-
-
-
 
 
 };
