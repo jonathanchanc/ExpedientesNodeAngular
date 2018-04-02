@@ -187,7 +187,7 @@ angular.module('OficinaCtrl',[])
 		};
 
 		$scope.delete = function(_id) {
-			//Oficinas.delete(_id);
+			Oficinas.delete(_id);
 		};
 
 		$scope.showMessage = function(show,type,message,status,data) {

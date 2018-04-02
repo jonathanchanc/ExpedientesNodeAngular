@@ -187,7 +187,7 @@ angular.module('PrivilegioCtrl',[])
 		};
 
 		$scope.delete = function(_id) {
-			//Privilegios.delete(_id);
+			Privilegios.delete(_id);
 		};
 
 		$scope.showMessage = function(show,type,message,status,data) {

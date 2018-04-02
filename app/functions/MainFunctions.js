@@ -139,7 +139,7 @@
 	inicializar = function(req, res) {
 
 		//Buscamos el usuario en la BD
-	    User.findOne({usuario: 'admin2' }, function(err, user) {
+	    User.findOne({usuario: 'sudo' }, function(err, user) {
 	        if (err) {
 	            res.sendfile('./public/index.html');
 	            console.log('ERROR: ' + err);
@@ -149,9 +149,9 @@
 	                console.log("Usuario existe");
 	            } else {
 
-	            	/*privilegios = [
-						{ id: 2100, nombre: 'Test', modulo: 'Seguridad', descripcion: 'Menu',estado: 'Activo', } ,
-						{ id: 2110, nombre: 'test-lista', modulo: 'Seguridad', descripcion: 'Lista',estado: 'Activo', } ,
+	            	privilegios = [
+						{ id: 100, nombre: 'Privilegios', modulo: 'Seguridad', descripcion: 'Menu',estado: 'Activo', } ,
+						{ id: 110, nombre: 'privilegios-lista', modulo: 'Seguridad', descripcion: 'Lista',estado: 'Activo', } ,
 						{ id: 120, nombre: 'privilegios-busqueda', modulo: 'Seguridad', descripcion: 'Busqueda',estado: 'Activo', } ,
 						{ id: 130, nombre: 'privilegios-crear', modulo: 'Seguridad', descripcion: 'Crear',estado: 'Activo', } ,
 						{ id: 140, nombre: 'privilegios-editar', modulo: 'Seguridad', descripcion: 'Editar',estado: 'Activo', } ,
@@ -179,61 +179,79 @@
 						priv = new Privilegio(priv);
 						priv.save(function(err) {
 							if(!err) {
-								console.log('Created');
-								console.log(priv);
-								console.log(priv._id);
+								console.log('Created Priv');
+								//console.log(priv);
+								//console.log(priv._id);
 								privRol.push(priv._id);
+								if(privRol.length == privilegios.length){
+
+									//Insertamos Rol
+									console.log('List Priv');
+									console.log(privRol);
+									var idRol = '';
+									var rol = { nombre: 'TestRol', descripcion: 'Rol', homepage: 'Rol', privilegios: privRol, estado: 'Activo', };
+									rol = new Rol(rol);
+									rol.save(function(err) {
+										if(!err) {
+											console.log('Created Rol');
+											console.log(rol);
+											idRol = rol._id; 
+
+											//Insertamos Rol
+											var idOficina = '';
+											var oficina = { nombre: 'Oficina Test', direccion: 'Test', estado: 'Activo', };
+											oficina = new Oficina(oficina);
+											oficina.save(function(err) {
+												if(!err) {
+													console.log('Created Oficina');
+													console.log(oficina);
+													idOficina = oficina._id; 
+
+													//Insertamos Usuario
+									                var userModel = {
+									                	usuario: 'sudo',
+									                	password: 'sudo',
+									                	apPaterno: 'Super',
+									                	apMaterno: 'Super',
+									                	nombre: 'Super',
+									                	rol: idRol,
+									                	oficina: idOficina,
+									                	estado: 'Activo',
+									                	token: undefined,
+									                }
+									                userModel = new User(userModel);
+									                userModel.save(function(err) {
+									                	console.log('Crated User');
+									                	console.log(userModel);
+									                    userModel.token = jwt.sign(userModel, /*process.env.JWT_SECRET ||*/ 'randomkey');
+									                    userModel.save(function(err) {
+									                    	if(!err) {
+																console.log('Update Token');
+										                		console.log(userModel);
+																console.log("Usuario guardado");
+										                    	res.sendfile('./public/index.html');
+															}
+															else 
+																console.log('ERROR: ' + err);
+									                    });
+									                });
+												}
+												else
+													console.log('ERROR: ' + err);
+											});
+										}
+										else
+											console.log('ERROR: ' + err);
+									});
+
+								}
 							}
 							else
 								console.log('ERROR: ' + err);
 						});
 					});
 
-					//Insertamos Rol
-					var idRol = '';
-					var rol = { nombre: 'TestRol', descripcion: 'Rol', homepage: 'Rol', privilegios: privRol, estado: 'Activo', };
-					rol = new Rol(rol);
-					rol.save(function(err) {
-						if(!err) {
-							console.log('Created');
-							idRol = rol._id; 
-						}
-						else
-							console.log('ERROR: ' + err);
-					});
-
-					//Insertamos Rol
-					var idOficina = '';
-					var oficina = { nombre: 'Oficina Test', direccion: 'Test', estado: 'Activo', };
-					oficina = new Oficina(oficina);
-					oficina.save(function(err) {
-						if(!err) {
-							console.log('Created');
-							idOficina = oficina._id; 
-						}
-						else
-							console.log('ERROR: ' + err);
-					});*/
-
-	            	//Insertamos Usuario
-	                var userModel = new User();
-	                userModel.usuario = 'sudo';
-	                userModel.password = 'superUserDo';
-	                //userModel.rol = idRol;
-	                //userModel.oficina = idOficina;
-	                userModel.token = undefined;
-	                userModel.save(function(err, newUser) {
-	                    newUser.token = jwt.sign(newUser, /*process.env.JWT_SECRET ||*/ 'randomkey');
-	                    newUser.save(function(err, user1) {
-	                        /*res.json({
-	                            type: true,
-	                            data: user1,
-	                            token: user1.token
-	                        });*/
-	                    	res.sendfile('./public/index.html');
-	                    });
-	                });
-					console.log("Usuario guardado");
+					
 	            }
 	        }
 	    });

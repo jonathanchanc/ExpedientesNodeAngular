@@ -202,7 +202,7 @@ angular.module('RolCtrl',[])
 		};
 
 		$scope.delete = function(_id) {
-			//Roles.delete(_id);
+			Roles.delete(_id);
 		};
 
 		$scope.selectAll = function(){
