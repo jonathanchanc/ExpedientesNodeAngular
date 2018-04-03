@@ -7,7 +7,8 @@ angular.module('MainService', [])
         //$rootScope.baseUrl = "http://easingie-suciqroo.rhcloud.com";
         //$rootScope.baseUrl = "http://192.168.1.132:3000";
         //$rootScope.baseUrl = "http://10.10.35.44:3000";
-        $rootScope.baseUrl = "http://localhost:3000";
+        //$rootScope.baseUrl = "http://localhost:3000";
+        $rootScope.baseUrl = "http://expedientes-suciqroo.a3c1.starter-us-west-1.openshiftapps.com";
         var nameUrl = '/api/main'
         var baseUrl = $rootScope.baseUrl;
 
